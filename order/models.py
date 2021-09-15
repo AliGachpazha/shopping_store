@@ -1,15 +1,15 @@
 from datetime import datetime
 
-from django.contrib.auth.models import User
+
 from django.db import models
 
 from product.models import Product
-from customer.models import Customer
+from customer.models import  User
 import secrets
 
 
 class Order(models.Model):
-    customer = models.ForeignKey(Customer, on_delete=models.CASCADE)
+    customer = models.ForeignKey(User, on_delete=models.CASCADE)
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
     paid = models.BooleanField(default=False)
@@ -35,8 +35,6 @@ class OrderItem(models.Model):
 
     def get_cost(self):
         return self.price * self.quantity
-
-
 
 
 class Gift_Cart(models.Model):

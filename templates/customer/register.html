@@ -1,0 +1,65 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css"
+          integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
+            integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+            crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <link rel="stylesheet" href="{% static 'customer/css/home.css' %}"/>
+    <link rel="stylesheet" href="{% static 'customer/css/login.css' %}"/>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+            integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+            crossorigin="anonymous"></script>
+    {% block js %}
+    <script src="{% static 'customer/js/register.js' %}"></script>
+ {% endblock %}
+
+</head>
+<body>
+{% load crispy_forms_tags %}
+<div class="container bg-light" style="border-radius: 5px;margin-top: 5vh">
+    <div id="form-new">
+        <div class="row"><div class="col"></div></div>
+        <div class="text-center but" style="margin-top: 10px;border-radius:5px">
+            <h2>REGISTER</h2>
+        </div>
+        <hr>
+        <form style="padding: 10px;border: solid 1px #d9d9d9;border-radius:5px" style="padding: 5px" enctype="multipart/form-data" method="post" id="form-post">
+            {% csrf_token %}
+            {{ user_forms|crispy }}
+            <button class="btn but"  style="width:100%" id="signUpBtn"  name="login" value="Login">Register
+            </button>
+        </form>
+    </div>
+    <div class="row" style="margin: 10px">
+            <div class="col">
+                <a class="btn  but" style="width:100%" href="{% url 'customer:home' %}"  name="login" value="Login">Back To Home
+                </a>
+            </div>
+            <div class="col">
+                <a class="btn  but" style="width:100%" href="{% url 'customer:login' %}" type="submit"  >Login
+                </a>
+            </div>
+        </div>
+        <div class="row"><div class="col"></div></div>
+
+</div>
+
+
+</body>
+</html>

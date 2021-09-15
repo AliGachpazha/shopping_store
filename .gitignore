@@ -1,4 +1,5 @@
-venv
-
+/venv/
+/.idea/
 .gitignore
-media
+*/__pycache__/*
+*.pyc

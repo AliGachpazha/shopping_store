@@ -1,0 +1,108 @@
+
+body {
+    background: linear-gradient(-45deg, #ee7752, #e73c7e, #23a6d5, #23d5ab);
+    background-size: 400% 400%;
+    animation: gradient 15s ease infinite;
+    height: 100vh;
+    font-family: Helvetica Neue, Helvetica, Arial, sans-serif;
+    font-size: 14px;
+    color: #000;
+    margin: 0;
+    padding: 0;
+}
+
+@keyframes gradient {
+    0% {
+        background-position: 0% 50%;
+    }
+    50% {
+        background-position: 100% 50%;
+    }
+    100% {
+        background-position: 0% 50%;
+    }
+}
+
+
+* {
+    margin: 0px;
+    padding: 0px;
+}
+
+html,
+body {
+    font-family: 'Exo', sans-serif;
+    position: relative;
+    height: 100%;
+}
+
+
+.swiper {
+    width: 100%;
+    height: 50%;
+}
+
+.swiper-slide {
+    text-align: center;
+    font-size: 18px;
+    background: #fff;
+
+    /* Center slide text vertically */
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: -webkit-flex;
+    display: flex;
+    -webkit-box-pack: center;
+    -ms-flex-pack: center;
+    -webkit-justify-content: center;
+    justify-content: center;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+    -webkit-align-items: center;
+    align-items: center;
+}
+
+.swiper-slide img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+ul {
+    list-style-type: none;
+    padding: 0;
+    margin: 5px;
+    text-align: center;
+}
+
+li {
+    display: inline-block;
+}
+
+li a {
+
+    display: inline-block;
+    padding: 15px 20px;
+    text-decoration: none;
+    color: black;
+}
+
+li a:hover {
+    background-color: white;
+    color: darkgrey;
+    text-decoration: none;
+}
+
+.fixed-header {
+    position: fixed;
+    top: 0;
+    width: 100%;
+    z-index: 100;
+}
+
+button:hover {
+    background-color: dimgray;
+    color: whitesmoke;
+    text-align: center;
+}
