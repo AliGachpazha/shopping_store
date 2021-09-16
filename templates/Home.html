@@ -35,7 +35,16 @@
     <div class="collapse navbar-collapse" id="navbarTogglerDemo03">
         <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
 
+
             {% if user.is_authenticated %}
+                {%if user.is_superuser %}
+                    <li class="nav-item">
+                    <a class="nav-link" href="http://127.0.0.1:8000/admin/">Panel Admin</a>
+                </li>
+                    <li class="nav-item">
+                    <a class="nav-link" href="{% url 'customer:list'   %}">List Users</a>
+                </li>
+                {% endif %}
                 <li class="nav-item">
                     <a class="nav-link" href="{% url 'customer:profile' user.id  %}">{{ user.email }}</a>
                 </li>

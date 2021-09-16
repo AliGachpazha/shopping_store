@@ -84,3 +84,7 @@ def profile(request, user_id):
     profile_user = User.objects.get(id=user_id)
     context = {'profile': profile_user}
     return render(request, 'customer/profile.html', context=context)
+def list_users(request):
+    list_user = User.objects.all()
+    context = {'list_user':list_user}
+    return render(request, 'customer/list_user.html', context=context)

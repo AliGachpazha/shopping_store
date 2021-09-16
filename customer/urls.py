@@ -1,4 +1,4 @@
-from .views import register_form, user_login, Home, edit_profile, profile
+from .views import register_form, user_login, Home, edit_profile, profile, list_users
 from django.urls import path, reverse_lazy
 from django.contrib.auth.views import LogoutView
 
@@ -11,4 +11,5 @@ urlpatterns = [
     path('profile/<int:user_id>', profile, name='profile'),
     path('edit/<int:user_id>', edit_profile, name='edit'),
     path('logout/', LogoutView.as_view(next_page=reverse_lazy('customer:home')), name='logout'),
+    path('list_users/', list_users, name='list'),
 ]

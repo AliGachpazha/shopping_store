@@ -8,7 +8,7 @@ from .vars import USER_TYPE_CHOICES, USER_TYPE, USERNAME, PASSWORD
 class UserForms(forms.ModelForm):
     class Meta:
         model = User
-        fields = ['username','phone', 'email', 'first_name', 'last_name', 'password', 'user_type']
+        fields = ['username','phone', 'email', 'first_name', 'last_name', 'password', ]
 
 
 class UserLogin(forms.Form):
