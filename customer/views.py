@@ -64,21 +64,26 @@ def user_login(request):
 #     return render(request, 'customer/view.html', context=args)
 
 
-def edit_profile(request, user_id):
+def edit_profile(request,user_id):
     std = get_object_or_404(User, id=user_id)
     form = EditProfile(instance=std)
     if request.method == 'POST':
         form = EditProfile(request.POST, instance=std)
         if form.is_valid():
-            form.save()
+            user = form.save()
+            if form.cleaned_data['new_password']==form.cleaned_data['new_passwordconfirm']:
+                user.set_password(form.cleaned_data['new_password'])
+                user.save()
+                login(request,user)
+            else:
+                messages.error(request,"PASSWORD INCORRECT")
+                return redirect('customer:edit')
             return redirect('customer:home')
-
     context = {
         'form': form,
         'std_id': std.id,
     }
     return render(request, 'customer/edit.html', context=context)
-
 
 def profile(request, user_id):
     profile_user = User.objects.get(id=user_id)

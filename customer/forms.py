@@ -22,8 +22,11 @@ class UserLogin(forms.Form):
         label=USER_TYPE
     )
 
-
-class EditProfile(UserChangeForm):
+class EditProfile(forms.ModelForm):
+    NewPassword = 'NewPassword '
+    NewPasswordConfirm = 'NewPasswordConfirm'
+    new_password =forms.CharField(max_length=1000, widget=forms.PasswordInput(), label=NewPassword)
+    new_passwordconfirm = forms.CharField(max_length=1000, widget=forms.PasswordInput(), label=NewPasswordConfirm)
     class Meta:
         model = User
-        fields = ['email', 'phone', 'first_name', 'last_name', ]
+        fields = ['email', 'phone','first_name', 'last_name','new_password','new_passwordconfirm']
