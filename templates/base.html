@@ -15,15 +15,16 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.3/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/ionicons/2.0.1/css/ionicons.min.css">
-    <link rel="stylesheet" href="assets/css/style.css">
     <link
             rel="stylesheet"
             href="https://unpkg.com/swiper/swiper-bundle.min.css"
     />
 
-    {% block js %}
+    {% block head %}
 
     {% endblock %}
+
+
     <link rel="stylesheet" href="{% static 'customer/css/home.css' %}"/>
     <link rel="stylesheet" href="{% static 'customer/css/list.css' %}"/>
     <link rel="stylesheet" href="{% static 'customer/css/login.css' %}"/>
@@ -32,6 +33,7 @@
 
 </head>
 
+
 <body class="container-fluid ">
 
 <nav class="navbar navbar-expand-lg navbar-light bg-light fixed-top">
@@ -39,44 +41,59 @@
             aria-controls="navbarTogglerDemo03" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
     </button>
-    <a class="navbar-brand" href="{% url 'customer:home' %}">HOME</a>
+    <a class="navbar-brand" href="{% url 'product:home' %}">HOME</a>
 
     <div class="collapse navbar-collapse" id="navbarTogglerDemo03">
         <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
 
 
             {% if user.is_authenticated %}
-                {%if user.is_superuser %}
+                {% if user.is_superuser %}
                     <li class="nav-item">
-                    <a class="nav-link" href="http://127.0.0.1:8000/admin/">Panel Admin</a>
-                </li>
+                        <a class="nav-link" href="http://127.0.0.1:8000/admin/">Panel Admin</a>
+                    </li>
                     <li class="nav-item">
-                    <a class="nav-link" href="{% url 'customer:list'   %}">List Users</a>
-                </li>
+                        <a class="nav-link" href="{% url 'customer:list' %}">List Users</a>
+                    </li>
                 {% endif %}
                 <li class="nav-item">
-                    <a class="nav-link" href="{% url 'customer:profile' user.id  %}">{{ user.email }}</a>
+                    <a class="nav-link" href="{% url 'customer:profile' user.id %}">{{ user.email }}</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="{% url 'customer:logout' %}">LOGOUT</a>
                 </li>
-            {% else %}
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'order:mycart' %}?user={{user}}">Cart</a>
+                </li>
                 <li class="nav-item active">
-                    <a class="nav-link" href="{% url 'customer:login' %}">LOGIN<span class="sr-only">(current)</span></a>
+                    <a class="nav-link" href="{% url 'product:allproducts' %}">Categories</a>
+                </li>
+            {% else %}
+
+                <li class="nav-item active">
+                    <a class="nav-link" href="{% url 'customer:login' %}">LOGIN<span
+                            class="sr-only">(current)</span></a>
+                </li>
+                <li class="nav-item active">
+                    <a class="nav-link" href="{% url 'customer:register' %}">REGISTER</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="{% url 'customer:register' %}">REGISTER</a>
+                    <a class="nav-link" href="{% url 'order:mycart' %}">Cart</a>
+                </li>
+                <li class="nav-item active">
+                    <a class="nav-link" href="{% url 'product:allproducts' %}">Categories</a>
                 </li>
             {% endif %}
         </ul>
-        <form class="form-inline my-2 my-lg-0">
-            <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
-            <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+        <form class="form-inline my-2 my-lg-0" action="{% url 'product:search' %}" method="GET">
+            <input name="keyword" class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search"
+                   required>
+            <button class="btn btn-danger my-2 my-sm-0" type="submit">Search</button>
         </form>
     </div>
 </nav>
 <!-- Swiper -->
-{% block content%}{% endblock %}
+{% block content %}{% endblock %}
 
 
 </body>

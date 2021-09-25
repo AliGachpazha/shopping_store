@@ -7,6 +7,7 @@ from django.db.models import F
 from django.http import HttpResponse, Http404, HttpResponseRedirect
 from django.shortcuts import render, get_object_or_404, redirect
 
+from order.models import Order, Cart
 from .forms import UserForms, UserLogin, EditProfile
 from .models import User
 import django.contrib.auth
@@ -23,10 +24,6 @@ from django.contrib.auth.models import Group
 from django.contrib import messages
 from .vars import *
 from django.contrib.auth.views import LogoutView
-
-
-def Home(request):
-    return render(request, 'Home.html')
 
 
 # Create your views here.
@@ -46,7 +43,7 @@ def user_login(request):
             if user:
                 if user.user_type == form.data['user_type']:
                     login(request, user)
-                    return redirect('customer:home')
+                    return redirect('product:home')
                 messages.error(request, INVALID_LEVEL)
                 return redirect('customer:login')
             messages.error(request, INVALID_USERNAME_PASSWORD)
@@ -64,32 +61,37 @@ def user_login(request):
 #     return render(request, 'customer/view.html', context=args)
 
 
-def edit_profile(request,user_id):
+def edit_profile(request, user_id):
     std = get_object_or_404(User, id=user_id)
     form = EditProfile(instance=std)
     if request.method == 'POST':
         form = EditProfile(request.POST, instance=std)
         if form.is_valid():
             user = form.save()
-            if form.cleaned_data['new_password']==form.cleaned_data['new_passwordconfirm']:
+            if form.cleaned_data['new_password'] == form.cleaned_data['new_passwordconfirm']:
                 user.set_password(form.cleaned_data['new_password'])
                 user.save()
-                login(request,user)
+                login(request, user)
             else:
-                messages.error(request,"PASSWORD INCORRECT")
+                messages.error(request, "PASSWORD INCORRECT")
                 return redirect('customer:edit')
-            return redirect('customer:home')
+            return redirect('product:home')
     context = {
         'form': form,
         'std_id': std.id,
     }
     return render(request, 'customer/edit.html', context=context)
 
+
 def profile(request, user_id):
+    # context = super().get_context_data(**kwargs)
     profile_user = User.objects.get(id=user_id)
-    context = {'profile': profile_user}
+    orders = Order.objects.filter(customer__id =user_id)
+    context = {'profile': profile_user,'orders':orders }
     return render(request, 'customer/profile.html', context=context)
+
+
 def list_users(request):
     list_user = User.objects.all()
-    context = {'list_user':list_user}
+    context = {'list_user': list_user}
     return render(request, 'customer/list_user.html', context=context)

@@ -4,6 +4,7 @@ from django.urls import reverse
 
 class Category(models.Model):
     name = models.CharField(max_length=150, db_index=True)
+    slug = models.SlugField(unique=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
@@ -12,15 +13,24 @@ class Category(models.Model):
 
 
 class Product(models.Model):
-    category = models.ForeignKey(Category, related_name='products', on_delete=models.CASCADE)
-    name = models.CharField(max_length=100, db_index=True)
-    description = models.TextField(blank=True)
-    price = models.DecimalField(max_digits=10, decimal_places=2)
-    available = models.BooleanField(default=True)
-    stock = models.PositiveIntegerField()
-    created_at = models.DateTimeField(auto_now_add=True)
-    updated_at = models.DateTimeField(auto_now=True)
-    image = models.ImageField(upload_to='media', blank=True)
+    title = models.CharField(max_length=200)
+    slug = models.SlugField(unique=True)
+    category = models.ForeignKey(Category, on_delete=models.CASCADE)
+    image = models.ImageField(upload_to="products")
+    marked_price = models.PositiveIntegerField()
+    selling_price = models.PositiveIntegerField()
+    description = models.TextField()
+    warranty = models.CharField(max_length=300, null=True, blank=True)
+    return_policy = models.CharField(max_length=300, null=True, blank=True)
+    view_count = models.PositiveIntegerField(default=0)
 
     def __str__(self):
-        return self.name
+        return self.title
+
+
+class ProductImage(models.Model):
+    product = models.ForeignKey(Product, on_delete=models.CASCADE)
+    image = models.ImageField(upload_to="products/images/")
+
+    def __str__(self):
+        return self.product.title
