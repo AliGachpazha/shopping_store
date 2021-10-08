@@ -21,6 +21,7 @@ MAX_UNITS = 'حداکثر تعداد واحد'
 USER_TYPE = 'سطح کاربری'
 
 
+
 """ Errors """
 INVALID_USERNAME = 'نام کاربری در سیستم موجود است'
 INVALID_PHONE = 'شماره تماس در سیستم موجود است'
