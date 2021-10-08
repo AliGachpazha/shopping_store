@@ -33,7 +33,6 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'order',
-    'cart',
     'product',
     'customer',
     'rest_framework',
@@ -41,6 +40,7 @@ INSTALLED_APPS = [
     'core',
     'knox',
     'crispy_forms',
+    'django_rest_passwordreset',
 ]
 
 MIDDLEWARE = [
@@ -53,7 +53,7 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
-ROOT_URLCONF = 'Shopping.urls'
+ROOT_URLCONF = 'Shoping.urls'
 
 TEMPLATES = [
     {
@@ -67,14 +67,13 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
-                'cart.context_processors.cart',
             ],
 
         },
     },
 ]
 
-WSGI_APPLICATION = 'Shopping.wsgi.application'
+WSGI_APPLICATION = 'Shoping.wsgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/3.2/ref/settings/#databases
@@ -149,6 +148,4 @@ REST_FRAMEWORK = {
 
     ]
 }
-EMAIL_BACKEND = "django.core.mail.backends.filebased.EmailBackend"
-EMAIL_FILE_PATH = str(BASE_DIR.joinpath('sent_emails'))
-CART_SESSION_ID = 'keranjang'
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'

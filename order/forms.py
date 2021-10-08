@@ -5,8 +5,7 @@ from .models import Order, Gift_Cart
 class CheckoutForm(forms.ModelForm):
     class Meta:
         model = Order
-        fields = ["ordered_by", "shipping_address",
-                  "mobile", "email", "payment_method","customer"]
+        fields = ["payment_method"]
 
 class Gift_CartForm(forms.ModelForm):
     class Meta:

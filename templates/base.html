@@ -19,6 +19,10 @@
             rel="stylesheet"
             href="https://unpkg.com/swiper/swiper-bundle.min.css"
     />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+            integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+            crossorigin="anonymous"></script>
 
     {% block head %}
 
@@ -63,7 +67,7 @@
                     <a class="nav-link" href="{% url 'customer:logout' %}">LOGOUT</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="{% url 'order:mycart' %}?user={{user}}">Cart</a>
+                    <a class="nav-link" href="{% url 'order:mycart' %}?user={{ user }}">Cart</a>
                 </li>
                 <li class="nav-item active">
                     <a class="nav-link" href="{% url 'product:allproducts' %}">Categories</a>
@@ -85,8 +89,8 @@
                 </li>
             {% endif %}
         </ul>
-        <form class="form-inline my-2 my-lg-0" action="{% url 'product:search' %}" method="GET">
-            <input name="keyword" class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search"
+        <form class="form-inline my-2 my-lg-0" action="{% url 'product:search' %}">
+            <input name="searched" class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search"
                    required>
             <button class="btn btn-danger my-2 my-sm-0" type="submit">Search</button>
         </form>
@@ -94,7 +98,7 @@
 </nav>
 <!-- Swiper -->
 {% block content %}{% endblock %}
-
+{% block js %}{% endblock %}
 
 </body>
 </html>

@@ -1,0 +1,47 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block head %}
+    <script src="{% static 'customer/js/change.js' %}"></script>
+{% endblock %}
+{% block content %}
+    {% load crispy_forms_tags %}
+    <div class="container bg-light" style="border-radius: 5px;margin-top: 5vh">
+        <div id="form-new">
+            <div class="row">
+                <div class="col"></div>
+            </div>
+            <div class="text-center but" style="margin-top: 10px;border-radius:5px">
+                <h2>change pasword</h2>
+            </div>
+            <hr>
+
+            <div class="row d-flex justify-content-center formRow ">
+                <div class="col-lg-12 d-flex justify-content-center ">
+
+                    <form style="padding: 10px;border: solid 1px #d9d9d9;border-radius:5px" style="padding: 5px"
+                          enctype="multipart/form-data" method="post" id="form-post">
+                        {% csrf_token %}
+                        {{ form|crispy }}
+                        <button class="btn but" style="width:100%" id="signUpBtn" name="login" value="Login">Register
+                        </button>
+                    </form>
+                </div>
+                <div class="row" style="margin: 10px">
+                    <div class="col">
+                        <a class="btn  but" style="width:100%" href="{% url 'product:home' %}" name="login"
+                           value="Login">Back
+                            To Home
+                        </a>
+                    </div>
+                    <div class="col">
+                        <a class="btn  but" style="width:100%" href="{% url 'customer:login' %}" type="submit">Login
+                        </a>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

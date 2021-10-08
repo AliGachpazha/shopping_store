@@ -2,10 +2,32 @@ from django.contrib.auth.base_user import AbstractBaseUser, BaseUserManager
 from django.contrib.auth.models import AbstractUser
 from django.core.validators import RegexValidator
 from django.db import models
+from django.dispatch import receiver
+from django.urls import reverse
+from django_rest_passwordreset.signals import reset_password_token_created
+from django.core.mail import send_mail
+from customer import vars
+
+@receiver(reset_password_token_created)
+def password_reset_token_created(sender, instance, reset_password_token, *args, **kwargs):
+    email_plaintext_message = "{}?token={}".format(reverse('password_reset:reset-password-request'),
+                                                   reset_password_token.key)
+
+    send_mail(
+        # title:
+        "Password Reset for {title}".format(title="Some website title"),
+        # message:
+        email_plaintext_message,
+        # from:
+        "noreply@somehost.local",
+        # to:
+        [reset_password_token.user.email]
+    )
 
 
 class CustomUserManager(BaseUserManager):
-    def create_user(self, username,phone, email, first_name, last_name, user_type, password=None):
+    def create_user(self, username, phone, email, first_name, last_name, user_type, password=None, password1=None,
+                    password2=None):
         if not email:
             raise ValueError('Students must have email')
         user = self.model(
@@ -17,11 +39,11 @@ class CustomUserManager(BaseUserManager):
             username=username,
         )
 
-        user.set_password(password)
+        user.set_password(password, password1, password2, )
         user.save(using=self._db)
         return user
 
-    def create_superuser(self, username,phone, email, first_name, last_name, user_type, password=None):
+    def create_superuser(self, username, phone, email, first_name, last_name, user_type, password=None):
         if not email:
             raise ValueError('Students must have email')
         user = self.model(email=self.normalize_email(email),

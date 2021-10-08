@@ -18,7 +18,7 @@ class CustomerOrderDetailView(DetailView):
     context_object_name = "ord_obj"
 
     def dispatch(self, request, *args, **kwargs):
-        if request.user.is_authenticated :
+        if request.user.is_authenticated:
             order_id = self.kwargs["pk"]
             order = Order.objects.get(id=order_id)
             if request.user.customer != order.cart.customer:
@@ -30,20 +30,22 @@ class CustomerOrderDetailView(DetailView):
 
 class AddToCartView(EcomMixin, TemplateView):
     template_name = "order/addtocart.html"
+    success_url = reverse_lazy("product:home")
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         # get product id from requested url
 
-        email = self.request.GET.get('user')
-        user =User.objects.get(email=email)
+        # email = self.request.GET.get('user')
 
+        user =User.objects.get(email=self.request.user)
         product_id = self.kwargs['pro_id']
         # get product
         product_obj = Product.objects.get(id=product_id)
 
         # check if cart exists
         cart_id = self.request.session.get("cart_id", None)
+
         if cart_id:
             cart_obj = Cart.objects.get(id=cart_id)
             this_product_in_cart = cart_obj.cartproduct_set.filter(
@@ -79,7 +81,6 @@ class AddToCartView(EcomMixin, TemplateView):
 
 class ManageCartView(EcomMixin, View):
     def get(self, request, *args, **kwargs):
-        print("asad",self.request.user)
         cp_id = self.kwargs["cp_id"]
         action = request.GET.get("action")
         cp_obj = CartProduct.objects.get(id=cp_id)
@@ -131,7 +132,7 @@ class MyCartView(EcomMixin, TemplateView):
         else:
             cart = Cart.objects.filter(customer__email=self.request.GET.get('user'))
         context['cart'] = cart
-        context['ord'] =Order.objects.filter(customer__email=self.request.GET.get('user')).last()
+        context['ord'] = Order.objects.filter(customer__email=self.request.GET.get('user')).last()
         return context
 
 
@@ -160,23 +161,32 @@ class CheckoutView(EcomMixin, CreateView):
 
     def form_valid(self, form):
         cart_id = self.request.session.get("cart_id")
+
+
+
         if cart_id:
+            gift_cart_code = self.request.POST.get('GiftCart')
             cart_obj = Cart.objects.get(id=cart_id)
+            gift_cart = Gift_Cart.objects.filter(code=gift_cart_code, user=cart_obj.customer)
+            form.instance.discount = 0
+            if gift_cart :
+                form.instance.discount = 1000
+                gift_cart[0].delete()
+            form.instance.customer = cart_obj.customer
             form.instance.cart = cart_obj
             form.instance.subtotal = cart_obj.total
-            form.instance.discount = 0
             form.instance.total = cart_obj.total
             form.instance.order_status = "Order Received"
             del self.request.session['cart_id']
             pm = form.cleaned_data.get("payment_method")
             order = form.save()
-            if pm == "Khalti":
-                return redirect(reverse("ecomapp:khaltirequest") + "?o_id=" + str(order.id))
-            elif pm == "Esewa":
-                return redirect(reverse("ecomapp:esewarequest") + "?o_id=" + str(order.id))
+
+
+
         else:
             return redirect("product:home")
         return super().form_valid(form)
+
 
 class order_view(EcomMixin, View):
     def get(self, request, *args, **kwargs):
@@ -186,5 +196,3 @@ class order_view(EcomMixin, View):
         cart_obj = cp_obj.cart
         print(self.request.user)
         print(self.request.user)
-
-

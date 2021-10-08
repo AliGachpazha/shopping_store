@@ -38,7 +38,8 @@
             <form action="" method="POST">
                 {% csrf_token %}
                 {{form.as_p}}
-                <button class="btn btn-info">Place order</button>
+                <input type="text" name="GiftCart" id ="GiftCart" placeholder="GiftCart"><br>
+                <button class="btn btn-info" >Place order</button>
             </form>
         </div>
     </div>

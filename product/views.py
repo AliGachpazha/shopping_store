@@ -14,7 +14,9 @@ from .models import *
 
 class EcomMixin(object):
     def dispatch(self, request, *args, **kwargs):
-        cart_id = request.session.get("cart_id")
+        cart_id = request.session.get("cart_id",None)
+
+        print('sdas',cart_id)
         if cart_id:
             cart_obj = Cart.objects.get(id=cart_id)
             if request.user.is_authenticated:
@@ -59,14 +61,13 @@ class ProductDetailView(EcomMixin, TemplateView):
         return context
 
 
-class SearchView(TemplateView):
-    template_name = "search.html"
+def search(request):
+    if request.method == 'GET':
+        searched = request.GET['searched']
+        product = Product.objects.filter(title__contains=searched)
+        context = {
+            'searched': searched,
+            'product': product,
+        }
+        return render(request, 'search.html', context)
 
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        kw = self.request.GET.get("keyword")
-        results = Product.objects.filter(
-            Q(title__icontains=kw) | Q(description__icontains=kw) | Q(return_policy__icontains=kw))
-        print(results)
-        context["results"] = results
-        return context

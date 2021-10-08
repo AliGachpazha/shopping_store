@@ -44,12 +44,8 @@ METHOD = (
 
 
 class Order(models.Model):
-    customer=models.ForeignKey(User,on_delete= models.CASCADE)
+    customer = models.ForeignKey(User,on_delete= models.CASCADE)
     cart = models.OneToOneField(Cart, on_delete=models.CASCADE)
-    ordered_by = models.CharField(max_length=200)
-    shipping_address = models.CharField(max_length=200)
-    mobile = models.CharField(max_length=10)
-    email = models.EmailField(null=True, blank=True)
     subtotal = models.PositiveIntegerField()
     discount = models.PositiveIntegerField()
     total = models.PositiveIntegerField()

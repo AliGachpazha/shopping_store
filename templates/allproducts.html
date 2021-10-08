@@ -8,6 +8,7 @@
     <div class="row">
         {% for p in cat.product_set.all %}
         <div class="col-md-3">
+          <h>{{ p.slug }}</h>
             <div class="m-4">
                 <h4><a href="{% url 'product:productdetail' p.slug %}">{{p.title}}</a></h4>
                 <img src="{{p.image.url}}" alt="" class="img-fluid" style="height: 2500; object-fit: cover;">
