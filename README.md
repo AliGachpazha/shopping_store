@@ -1,21 +1,31 @@
-shop
-shopping website with Django
+=====
+shopping
+=====
+#Online Shop
+A simple django ecommerce project
 
-For start the project , the first step is to create venv in main directory of the project:
+How to Run?
+#1- Clone the repository:
+```bash
+ $ git clone  https://github.com/AliGachpazha/shopping_store.git
+ $ cd Shoping
+```
 
-in linux:
-sudo apt install python3-venv
-python3 -m venv venv
-source venv/bin/activate
-in windows :
+#2- Create a virtualenv and activate it:
+```bash
+Windows:
 pip install virtualenv
-python3 -m venv venv
-.\venv\Scripts\activate
-after activate venv you should instal requirments:
-
-pip install -r requirements.txt
-then you should create postgres db and then connect to the django and in shop.settings you should add db specs like this :
-
+py -3 -m venv venv
+venv\Scripts\activate
+```
+```bash
+Linux:
+sudo apt install python3-venv
+$ python3 -m venv venv
+$ . venv/bin/activate
+```
+#3- In settings.py set up the your database:
+```bash
 DATABASES = {  
 	 'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
@@ -25,10 +35,28 @@ DATABASES = {
         'HOST': 'localhost',
         'PORT': '5432',
     }}
-}
-then run these commands by steps:
+}```
 
-1- python manage.py makemigrations
-2- python mange.py migrate
-3- python manage.py createsuperuser
-4- python manage.py runserver
+
+#4- In settings.py set up the your email:
+```bash
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+```
+
+
+#5- Install the requirements :
+```bash
+pip install -r requirements.txt
+```
+#6- Write the following commands to create your tables:
+```bash
+python manage.py makemigrations
+python manage.py migrate
+python manage.py createsuperuser
+python manage.py runserver
+```
+#7- Run the development server:
+```bash
+python manage.py runserver
+```
+Open http://127.0.0.1:8000 in your browser.`
