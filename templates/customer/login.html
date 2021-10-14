@@ -29,9 +29,45 @@
             </div>
             <div class="row" style="margin: 10px">
                 <div class="col">
-                    <a class="btn  but" style="width:100%" href="#" name="login" value="Login">Forgot password
+                    <a class="btn  but" style="width:100%" data-toggle="modal" data-target="#exampleModal"
+                    >Forgot password
                     </a>
+                    <!-- Modal -->
+                    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog"
+                         aria-labelledby="exampleModalLabel" aria-hidden="true">
+                        <div class="modal-dialog" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="exampleModalLabel">Reset Password</h5>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                                <div class="modal-body">
+                                    <div>
+                                        {% if status %}
+                                            <h5>{{ status }}</h5>
+                                        {% endif %}
+                                    </div>
+                                    <form method="post" id="change" action="{% url 'customer:forgot_password' %}">
+                                        {% csrf_token %}
+                                        <label for="id_re_new_password">Email:
+                                            <input class="form-control" id="email" name="email"
+                                                   placeholder="type your email" type="email">
+                                        </label>
+
+                                        <input type="submit" id="btnUpdate" value="Send Link" class="btn btn-primary">
+                                    </form>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
+
+
                 <div class="col">
                     <a class="btn  but" style="width:100%" href="{% url 'customer:register' %}" type="submit">I do not
                         have an account

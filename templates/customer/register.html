@@ -1,44 +1,47 @@
 {% extends 'base.html' %}
 {% load static %}
+{% load crispy_forms_tags %}
 {% block head %}
-     <script src="{% static 'customer/js/register.js' %}"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+            integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+            crossorigin="anonymous"></script>
+    <script src="{% static 'customer/js/register.js' %}"></script>
 {% endblock %}
 {% block content %}
-{% load crispy_forms_tags %}
-<div class="container bg-light" style="border-radius: 5px;margin-top: 5vh">
-    <div id="form-new">
-        <div class="row"><div class="col"></div></div>
-            {% if messages %}
-                <ul class="messages">
-                    {% for message in messages %}
-                        <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
-                    {% endfor %}
-                </ul>
-            {% endif %}
-        <div class="text-center but" style="margin-top: 10px;border-radius:5px">
-            <h2>REGISTER</h2>
+    <div class="container bg-light" style="border-radius: 5px;margin-top: 5vh">
+        <div id="form-new">
+            <div class="row">
+                <div class="col"></div>
+            </div>
+            <div class="text-center but" style="margin-top: 10px;border-radius:5px">
+                <h2>REGISTER</h2>
+                <div class="text-danger" id='error'>
+                </div>
+            </div>
+            <hr>
+            <form style="padding: 10px;border: solid 1px #d9d9d9;border-radius:5px" style="padding: 5px"
+                  enctype="multipart/form-data" method="post" id="form-post">
+                {% csrf_token %}
+                {{ user_forms|crispy }}
+                <button class="btn but" style="width:100%" id="signUpBtn" name="login" value="Login">Register
+                </button>
+            </form>
         </div>
-        <hr>
+        <div class="row" style="margin: 10px">
+            <div class="col">
+                <a class="btn  but" style="width:100%" href="{% url 'product:home' %}" name="login" value="Login">Back
+                    To Home
+                </a>
+            </div>
+            <div class="col">
 
-        <form style="padding: 10px;border: solid 1px #d9d9d9;border-radius:5px" style="padding: 5px" enctype="multipart/form-data" method="post" id="form-post">
-            {% csrf_token %}
-            {{ user_forms|crispy }}
-            <button class="btn but"  style="width:100%" id="signUpBtn"  name="login" value="Login">Register
-            </button>
-        </form>
+                <a class="btn  but" style="width:100%" href="{% url 'customer:login' %}" type="submit">Login
+                </a>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col"></div>
+        </div>
     </div>
-    <div class="row" style="margin: 10px">
-            <div class="col">
-                <a class="btn  but" style="width:100%" href="{% url 'product:home' %}"  name="login" value="Login">Back To Home
-                </a>
-            </div>
-            <div class="col">
-                <a class="btn  but" style="width:100%" href="{% url 'customer:login' %}" type="submit"  >Login
-                </a>
-            </div>
-        </div>
-        <div class="row"><div class="col"></div></div>
-
-</div>
 {% endblock %}
-

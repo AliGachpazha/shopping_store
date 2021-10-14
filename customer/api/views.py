@@ -2,6 +2,7 @@ from django.contrib.auth.hashers import check_password
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.urls import reverse
 from rest_framework import generics, permissions, status, authentication, viewsets, generics, mixins
+from rest_framework.authtoken.models import Token
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from knox.models import AuthToken
@@ -37,10 +38,14 @@ class ChangeCustomerPassword(APIView, mixins.UpdateModelMixin):
     serializer_class = ChangeCustomerPasswordSerializer
 
     def post(self, request, *args, **kwargs):
-        user = self.request.user
-        print(user)
+
         serialized_customer = ChangeCustomerPasswordSerializer(data=request.data)
         if serialized_customer.is_valid(raise_exception=True):
+            try:
+                token = serialized_customer.data['token']
+                user = Token.objects.get(key=token).user
+            except Token.DoesNotExist:
+                return Response({'msg': 'user does not exist'}, status=status.HTTP_406_NOT_ACCEPTABLE)
             passwords = serialized_customer.data
             if passwords['password1'] != passwords['password2'] or not check_password(passwords['password'],
                                                                                       user.password):

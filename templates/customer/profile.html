@@ -13,6 +13,12 @@
                                                              class="img-radius" alt="User-Profile-Image"></div>
                                     <h6 class="f-w-600">{{ profile.first_name }} {{ profile.last_name }}</h6>
                                     <p>{{ profile.user_type }}</p>
+                                <p>GiftCart:</p>
+                                    {% if gift_cart %}
+                                        <p>
+                                            {{ gift_cart.code }}
+                                        </p>
+                                    {% endif %}
                                 </div>
                             </div>
                             <div class="col-sm-8">
@@ -78,7 +84,7 @@
                     {% for ord in orders %}
                         <tr>
                             <td>{{ forloop.counter }}</td>
-                            <td><a href="{% url 'order:customerorderdetail' ord.pk %}"> #ORDER_{{ ord.id }}</a></td>
+                            <td> ORDER_{{ ord.id }}</td>
                             <td>{{ ord.total }}</td>
                             <td>{{ ord.created_at|timesince }} ago</td>
                             <td>{{ ord.order_status }}</td>

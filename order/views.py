@@ -32,17 +32,21 @@ class AddToCartView(EcomMixin, TemplateView):
     template_name = "order/addtocart.html"
     success_url = reverse_lazy("product:home")
 
+    def dispatch(self, request, *args, **kwargs):
+        if request.user.is_authenticated:
+            pass
+        else:
+            return redirect("customer:login")
+
+        return super().dispatch(request, *args, **kwargs)
+
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         # get product id from requested url
-
-        # email = self.request.GET.get('user')
-
-        user =User.objects.get(email=self.request.user)
+        user = User.objects.get(email=self.request.user)
         product_id = self.kwargs['pro_id']
         # get product
         product_obj = Product.objects.get(id=product_id)
-
         # check if cart exists
         cart_id = self.request.session.get("cart_id", None)
 
@@ -67,8 +71,8 @@ class AddToCartView(EcomMixin, TemplateView):
                 cart_obj.total += product_obj.selling_price
                 cart_obj.save()
         else:
-            print(self.request.user)
-            cart_obj = Cart.objects.create(total=0,customer=user)
+
+            cart_obj = Cart.objects.create(total=0, customer=user)
             self.request.session['cart_id'] = cart_obj.id
             cartproduct = CartProduct.objects.create(
                 cart=cart_obj, product=product_obj, rate=product_obj.selling_price, quantity=1,
@@ -162,14 +166,12 @@ class CheckoutView(EcomMixin, CreateView):
     def form_valid(self, form):
         cart_id = self.request.session.get("cart_id")
 
-
-
         if cart_id:
             gift_cart_code = self.request.POST.get('GiftCart')
             cart_obj = Cart.objects.get(id=cart_id)
-            gift_cart = Gift_Cart.objects.filter(code=gift_cart_code, user=cart_obj.customer)
+            gift_cart = GiftCart.objects.filter(code=gift_cart_code, user=cart_obj.customer)
             form.instance.discount = 0
-            if gift_cart :
+            if gift_cart:
                 form.instance.discount = 1000
                 gift_cart[0].delete()
             form.instance.customer = cart_obj.customer
@@ -194,5 +196,3 @@ class order_view(EcomMixin, View):
         action = request.GET.get("action")
         cp_obj = CartProduct.objects.get(id=cp_id)
         cart_obj = cp_obj.cart
-        print(self.request.user)
-        print(self.request.user)

@@ -1,5 +1,4 @@
 """Shoping URL Configuration
-
 The `urlpatterns` list routes URLs to views. For more information please see:
     https://docs.djangoproject.com/en/3.2/topics/http/urls/
 Examples:
@@ -24,5 +23,3 @@ urlpatterns = [
     path('customer/', include('customer.urls')),
     path('api-auth/', include('core.api.urls'))
 ]+static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
-
-

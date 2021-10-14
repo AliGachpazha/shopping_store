@@ -16,7 +16,6 @@ class EcomMixin(object):
     def dispatch(self, request, *args, **kwargs):
         cart_id = request.session.get("cart_id",None)
 
-        print('sdas',cart_id)
         if cart_id:
             cart_obj = Cart.objects.get(id=cart_id)
             if request.user.is_authenticated:
@@ -29,13 +28,8 @@ class HomeView(EcomMixin, TemplateView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['myname'] = "Dipak Niroula"
-        all_products = Product.objects.all().order_by("-id")
-        paginator = Paginator(all_products, 8)
-        page_number = self.request.GET.get('page')
-        print(page_number)
-        product_list = paginator.get_page(page_number)
-        context['product_list'] = product_list
+        context['myname'] = "mmd"
+
         return context
 
 
@@ -60,6 +54,10 @@ class ProductDetailView(EcomMixin, TemplateView):
         context['product'] = product
         return context
 
+def productshowder(request):
+    list = Product.objects.all()
+    context = {'list': list}
+    return render(request, 'Home.html', context=context)
 
 def search(request):
     if request.method == 'GET':
@@ -70,4 +68,3 @@ def search(request):
             'product': product,
         }
         return render(request, 'search.html', context)
-

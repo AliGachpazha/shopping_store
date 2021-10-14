@@ -1,5 +1,5 @@
 from django import forms
-from .models import Order, Gift_Cart
+from .models import Order, GiftCart
 
 
 class CheckoutForm(forms.ModelForm):
@@ -7,7 +7,8 @@ class CheckoutForm(forms.ModelForm):
         model = Order
         fields = ["payment_method"]
 
+
 class Gift_CartForm(forms.ModelForm):
     class Meta:
-        model = Gift_Cart
+        model = GiftCart
         fields = '__all__'

@@ -19,6 +19,18 @@
             rel="stylesheet"
             href="https://unpkg.com/swiper/swiper-bundle.min.css"
     />
+
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+            integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+            crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+            integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+            crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
+            integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+            crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+          integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
             integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
@@ -29,7 +41,7 @@
     {% endblock %}
 
 
-    <link rel="stylesheet" href="{% static 'customer/css/home.css' %}"/>
+
     <link rel="stylesheet" href="{% static 'customer/css/list.css' %}"/>
     <link rel="stylesheet" href="{% static 'customer/css/login.css' %}"/>
     <link rel="stylesheet" href="{% static 'customer/css/profile.css' %}"/>
@@ -38,17 +50,19 @@
 </head>
 
 
-<body class="container-fluid ">
+<body class="container-fluid">
+{% block modal %}
 
+{% endblock %}
 <nav class="navbar navbar-expand-lg navbar-light bg-light fixed-top">
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo03"
             aria-controls="navbarTogglerDemo03" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
     </button>
-    <a class="navbar-brand" href="{% url 'product:home' %}">HOME</a>
+    <a class="navbar-brand" href="{% url 'product:home' %}"><i class="fas fa-home" style="font-size:24px"></i></a>
 
     <div class="collapse navbar-collapse" id="navbarTogglerDemo03">
-        <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
+        <ul class="navbar-nav mr-auto mt-2 mt-lg-0" >
 
 
             {% if user.is_authenticated %}
@@ -60,45 +74,52 @@
                         <a class="nav-link" href="{% url 'customer:list' %}">List Users</a>
                     </li>
                 {% endif %}
-                <li class="nav-item">
-                    <a class="nav-link" href="{% url 'customer:profile' user.id %}">{{ user.email }}</a>
+                <li class="nav-item active dropdown">
+                    <a class="nav-link dropdown-toggle" data-toggle="dropdown" role="button"
+                       aria-haspopup="true" aria-expanded="false"><i class='fas fa-user-alt'></i> {{ user.email }}</a>
+                    <div class="dropdown-menu">
+                        <a class="dropdown-item" href="{% url 'customer:profile' user.id %}">Profile</a>
+
+                        <div class="dropdown-divider"></div>
+                        <a class="dropdown-item" href="{% url 'customer:logout' %}">LOGOUT</a>
+                    </div>
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="{% url 'customer:logout' %}">LOGOUT</a>
+                <li class="nav-item ">
+                    <a class="nav-link" href="{% url 'order:mycart' %}?user={{ user }}"><i class="fa fa-shopping-cart"
+                                                                                           style="font-size:24px"></i></a>
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="{% url 'order:mycart' %}?user={{ user }}">Cart</a>
-                </li>
-                <li class="nav-item active">
+                <li class="nav-item ">
                     <a class="nav-link" href="{% url 'product:allproducts' %}">Categories</a>
                 </li>
             {% else %}
 
+
+
                 <li class="nav-item active">
-                    <a class="nav-link" href="{% url 'customer:login' %}">LOGIN<span
+                    <a class="nav-link" href="{% url 'customer:login' %}">Login<span
                             class="sr-only">(current)</span></a>
                 </li>
-                <li class="nav-item active">
-                    <a class="nav-link" href="{% url 'customer:register' %}">REGISTER</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="{% url 'order:mycart' %}">Cart</a>
-                </li>
+
                 <li class="nav-item active">
                     <a class="nav-link" href="{% url 'product:allproducts' %}">Categories</a>
+                </li>
+                <li class="nav-item active">
+                    <a class="nav-link" href="{% url 'order:mycart' %}"><i class="fa fa-shopping-cart"
+                                                                           style="font-size:24px"></i></a>
                 </li>
             {% endif %}
         </ul>
         <form class="form-inline my-2 my-lg-0" action="{% url 'product:search' %}">
-            <input name="searched" class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search"
-                   required>
-            <button class="btn btn-danger my-2 my-sm-0" type="submit">Search</button>
-        </form>
+                    <input name="searched" class="form-control mr-sm-2" type="search" placeholder="Search"
+                           aria-label="Search"
+                           required>
+                    <button class="btn btn-outline-success my-2 my-sm-0" type="submit"><i class="fa fa-search"></i></button>
+                </form>
     </div>
 </nav>
 <!-- Swiper -->
 {% block content %}{% endblock %}
-{% block js %}{% endblock %}
+
 
 </body>
 </html>

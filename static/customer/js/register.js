@@ -12,7 +12,6 @@ $(document).ready(function () {
         // Create an FormData object
         const data = new FormData(form);
 
-
         $.ajax({
             type: "POST",
             enctype: 'multipart/form-data',

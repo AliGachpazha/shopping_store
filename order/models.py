@@ -37,9 +37,8 @@ ORDER_STATUS = (
 )
 
 METHOD = (
-    ("Cash On Delivery", "Cash On Delivery"),
-    ("Khalti", "Khalti"),
-    ("Esewa", "Esewa"),
+    ("Cash On Delivery", "پرداخت درب منزل"),
+    ("Cash On Internet", "پرداخت اینترنتی"),
 )
 
 
@@ -60,7 +59,7 @@ class Order(models.Model):
         return "Order: " + str(self.id)
 
 
-class Gift_Cart(models.Model):
+class GiftCart(models.Model):
     @staticmethod
     def random_str():
         upper_alpha = "ABCDEFGHJKLMNPQRSTVWXYZ"

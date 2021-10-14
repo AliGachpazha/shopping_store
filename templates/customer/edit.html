@@ -1,6 +1,52 @@
 {% extends 'base.html' %}
 {% load static %}
+    {% block head %}
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+<script src="{% static 'customer/js/reset-password.js'%}"></script>
+    {% endblock %}
+
 {% block content %}
+
+
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Change password</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+<form id = "change-password-form" method="post" action="{% url 'core_api:customer_change_password' %}">
+    <input type="hidden" value="{{ user.get_token }}" name="token">
+    <div class="form-group">
+    <label for="old-password">Old Password:</label>
+    <input type="password" class="form-control" placeholder="Enter password" id="old-password" name="password">
+  </div>
+  <div class="form-group">
+    <label for="new-password">New Password:</label>
+    <input type="password" class="form-control" placeholder="Enter password" id="new-password" name="password1">
+  </div>
+    <div class="form-group">
+    <label for="new-password-confirm">New Password confirm:</label>
+    <input type="password" class="form-control" placeholder="Enter password" id="new-password-confirm" name="password2">
+  </div>
+
+  <button type="submit" class="btn btn-primary">Submit</button>
+</form>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Modal -->
+
     {% load crispy_forms_tags %}
     <div class="container bg-light" style="border-radius: 5px;margin-top: 10vh">
         <div id="form-new">
@@ -16,7 +62,7 @@
                       action="{% url 'customer:edit' user.id %}" method="post" enctype="multipart/form-data">
                     {% csrf_token %}
                     {{ form|crispy }}
-                    {{ form_address|crispy }}
+                    {{ address|crispy }}
                     <button class="btn but" style="width:100%" type="submit" name="login" value="Edit">Edit
                     </button>
                 </form>
@@ -28,14 +74,16 @@
                     </a>
                 </div>
                 <div class="col">
-                    <a class="btn  but" style="width:100%" href="{% url 'customer:profile' user.id %}" type="submit">Back
-                        To Profile
+                    <a class="btn  but" style="width:100%" href="{% url 'customer:profile' user.id %}" type="button" data-toggle="modal" data-target="#exampleModal">Change Password
                     </a>
                 </div>
             </div>
+
+    </div>
             <div class="row">
                 <div class="col"></div>
             </div>
         </div>
     </div>
+
 {% endblock %}

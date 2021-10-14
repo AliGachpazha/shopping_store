@@ -35,10 +35,10 @@ class RegisterSerializer(serializers.ModelSerializer):
 class ChangeCustomerPasswordSerializer(serializers.ModelSerializer):
     password1 = serializers.CharField(max_length=100)
     password2 = serializers.CharField(max_length=100)
-
+    token = serializers.CharField(max_length=100,allow_blank=True)
     class Meta:
         model = User
-        fields = ['password', 'password1', 'password2']
+        fields = ['password', 'password1', 'password2','token']
 
 
 class CustomerEmailSerializer(serializers.Serializer):
