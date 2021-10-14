@@ -5,7 +5,8 @@ from .models import Order, GiftCart, Cart, CartProduct
 # Register your models here.
 @admin.register(Order)
 class OrderAdmin(admin.ModelAdmin):
-    pass
+    list_display = ['customer', 'created_at']
+    search_fields = ['customer', ]
 
 
 @admin.register(Cart)
@@ -19,4 +20,5 @@ class CartProductAdmin(admin.ModelAdmin):
 
 @admin.register(GiftCart)
 class GiftCartAdmin(admin.ModelAdmin):
-    pass
+    list_display = ['user','code','date']
+    search_fields = ['user' ]
